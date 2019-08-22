@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const server = express();
+const usersRouter = require('./routes/usersRouter');
 
 // MIDDLEWARE
 server.use(express.json());
@@ -12,6 +13,7 @@ server.use(morgan('dev'));
 server.use(cors());
 
 // ROUTES
+server.use('/api/', usersRouter);
 
 // CUSTOM MIDDLEWARE
 server.use('/', (err, req, res, next) => {
