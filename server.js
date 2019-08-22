@@ -1,4 +1,5 @@
 const express = require('express');
+const authorize = require('./auth/authorize');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -14,10 +15,9 @@ server.use(cors());
 
 // ROUTES
 server.use('/api', usersRouter);
+server.use('/api/restricted', authorize /*, router */);
 
-// CUSTOM MIDDLEWARE
 server.use('/', (err, req, res, next) => {
-  console.error(err);
   res.status(500).json({
     error: err.message
   });
