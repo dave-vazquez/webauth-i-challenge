@@ -13,11 +13,11 @@ server.use(morgan('dev'));
 server.use(cors());
 
 // ROUTES
-server.use('/api/', usersRouter);
+server.use('/api', usersRouter);
 
 // CUSTOM MIDDLEWARE
 server.use('/', (err, req, res, next) => {
-  console.error(error);
+  console.error(err);
   res.status(500).json({
     success: false,
     error: err.message
