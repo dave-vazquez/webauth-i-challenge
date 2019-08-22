@@ -1,11 +1,12 @@
 import React from 'react';
+import Login from './LandingPage/Login';
 
-function App() {
+const App = () => {
   return (
     <div>
-      <h2>Users App</h2>
+      <Login />
     </div>
   );
-}
+};
 
 export default App;
