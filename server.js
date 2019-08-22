@@ -14,12 +14,11 @@ server.use(cors());
 // ROUTES
 
 // CUSTOM MIDDLEWARE
-server.use('/', (error, req, res, next) => {
+server.use('/', (err, req, res, next) => {
   console.error(error);
   res.status(500).json({
     success: false,
-    message: 'Internal Server Error',
-    err: error.message
+    error: err.message
   });
 });
 
