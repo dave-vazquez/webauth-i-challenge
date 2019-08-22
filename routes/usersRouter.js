@@ -42,6 +42,9 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+/********************************************************
+ *                   GET /api/users                    *
+ ********************************************************/
 router.get('/users', authorize, async (req, res, next) => {
   try {
     const users = await Users.find();
