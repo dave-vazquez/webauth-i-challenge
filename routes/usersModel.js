@@ -2,6 +2,7 @@ const db = require('../data/db-config');
 
 module.exports = {
   add,
+  find,
   findBy
 };
 
@@ -25,4 +26,8 @@ function findBy(filter) {
   return db('users')
     .where(filter)
     .first(); // returns the record matching the key-value pair
+}
+
+function find() {
+  return db('users');
 }
