@@ -21,6 +21,9 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+/********************************************************
+ *                   POST /api/login                    *
+ ********************************************************/
 router.post('/login', async (req, res, next) => {
   const { username, passwordGuess } = req.body;
 
@@ -38,5 +41,27 @@ router.post('/login', async (req, res, next) => {
     next(err);
   }
 });
+
+/********************************************************
+ *                  CUSTOM MIDDLEWARE                   *
+ ********************************************************/
+function authorize(req, res, next) {
+  const { username, password } = req.headers;
+
+  try {
+    const user = await Users.findBy({ username });
+
+    user && bcrypt.compareSync(password, user.password)
+      ? res.status(200).json({
+          next();
+        })
+      : res.status(403).json({
+          message: 'Forbidden'
+        });
+
+  } catch(err) {
+    next(err);
+  }
+}
 
 module.exports = router;
