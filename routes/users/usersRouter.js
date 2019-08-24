@@ -26,17 +26,20 @@ router.post('/register', async (req, res, next) => {
  ********************************************************/
 router.post('/login', async (req, res, next) => {
   const { username, passwordGuess } = req.body;
-
+  req.session.loggedin = false;
   try {
     const user = await Users.findBy({ username });
 
-    user && bcrypt.compareSync(passwordGuess, user.password)
-      ? res.status(200).json({
+    if( user && bcrypt.compareSync(passwordGuess, user.password) {
+      req.session.loggedin = true;
+      res.status(200).json({
           message: `ayyy ${username}`
-        })
-      : res.status(400).json({
+        });
+    } else {
+      res.status(400).json({
           message: 'Invalid Credentials'
         });
+    }
   } catch (err) {
     next(err);
   }
