@@ -17,10 +17,35 @@ server.use(helmet());
 server.use(morgan('dev'));
 server.use(cors());
 
+// SESSION OPTIONS
+const sessionOptions = {
+  name: 'authenticate',
+  secret: `Ring the bells that still can ring. 
+    Forget your perfect offering. 
+    There's a crack in everything. 
+    That's how the light gets in.`,
+  cookie: {
+    maxAge: 1000 * 60 * 60,
+    secure: false, // set to true when the client has an HTTPS connection, in development, false, in production, true
+    saveUninitialized: false,
+
+    store: new knexSessionStore({
+      knex: require('../data/dbConfig.js'),
+      tablename: 'sessions',
+      sidfieldname: 'sid',
+      createtable: true,
+      clearInterval: 1000 * 60 * 60
+    })
+  }
+};
+
+server.use(sessionOptions);
+
 // ROUTES
 server.use('/api', usersRouter);
 server.use('/api/auth', authRouter);
 
+// CUSTOM ERROR-HANDLING MIDDLEWARE
 server.use('/', (err, req, res, next) => {
   res.status(500).json({
     error: err.message
