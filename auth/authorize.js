@@ -1,4 +1,4 @@
-const Users = require('../routes/usersModel');
+const Users = require('../routes/users/usersModel');
 const bcrypt = require('bcrypt');
 
 module.exports = async (req, res, next) => {
