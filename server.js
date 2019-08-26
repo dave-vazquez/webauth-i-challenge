@@ -8,7 +8,7 @@ const session = require('express-session');
 const knexSessionStore = require('connect-session-knex')(session);
 
 const server = express();
-const usersRouter = require('./routes/usersRouter');
+const usersRouter = require('./routes/users/usersRouter');
 const authRouter = require('./routes/auth/authRouter');
 
 // MIDDLEWARE
@@ -30,7 +30,7 @@ const sessionOptions = {
     saveUninitialized: false,
 
     store: new knexSessionStore({
-      knex: require('../data/dbConfig.js'),
+      knex: require('./data/db-config'),
       tablename: 'sessions',
       sidfieldname: 'sid',
       createtable: true,
@@ -39,11 +39,11 @@ const sessionOptions = {
   }
 };
 
-server.use(sessionOptions);
+server.use(session(sessionOptions));
 
 // ROUTES
 server.use('/api', usersRouter);
-server.use('/api/auth', authRouter);
+server.use('/api/auth', authorize, authRouter);
 
 // CUSTOM ERROR-HANDLING MIDDLEWARE
 server.use('/', (err, req, res, next) => {
